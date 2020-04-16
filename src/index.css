@@ -1,0 +1,6 @@
+@import './a.css';
+
+div {
+    transform: rotate(48deg);
+    border: 1px solid #dadada;
+}
