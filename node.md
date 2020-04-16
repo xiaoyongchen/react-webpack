@@ -94,3 +94,7 @@ babel-runtime bable-polyfill bable-plugin-transform-runtime,
 npm install --save-dev @babel/plugin-transform-runtime
 npm install @babel/runtime
 缺点 "".includes()不支持
+
+# 代码规范
+
+npm install eslint eslint-loader --save-dev

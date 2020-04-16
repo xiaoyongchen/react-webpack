@@ -4,9 +4,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const TerserJSPlugin = require("terser-webpack-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
-const {
-    CleanWebpackPlugin
-} = require("clean-webpack-plugin"); // installed via npm
+const { CleanWebpackPlugin } = require("clean-webpack-plugin"); // installed via npm
 
 const isDev = process.env.NODE_ENV === "development";
 module.exports = {
@@ -42,15 +40,25 @@ module.exports = {
     ],
     // 模块,特点单一
     module: {
-        rules: [{
+        rules: [
+            
+            // {   
+            //     enforce: 'pre',
+            //     test: /\.(js|jsx)$/,
+            //     exclude: /(node_modules|bower_components)/,
+            //     include: [path.resolve(__dirname, "src")],
+            //     use:"eslint-loader",
+            // },
+            {
                 test: /\.(js|jsx)$/,
                 exclude: /(node_modules|bower_components)/,
                 include: [path.resolve(__dirname, "src")],
-                use: "babel-loader"
+                use:"babel-loader",
             },
             {
                 test: /\.(css|scss|sass)$/,
-                use: [{
+                use: [
+                    {
                         loader: MiniCssExtractPlugin.loader,
                         options: {
                             hmr: isDev,
@@ -71,7 +79,7 @@ module.exports = {
             new TerserJSPlugin({
                 cache: true,
             }),
-            new OptimizeCSSAssetsPlugin({})
+            new OptimizeCSSAssetsPlugin({}),
         ],
     },
 };
