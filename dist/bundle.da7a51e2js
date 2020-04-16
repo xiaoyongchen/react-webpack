@@ -81,31 +81,23 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
-/******/ ({
-
-/***/ "./src/a.js":
-/*!******************!*\
-  !*** ./src/a.js ***!
-  \******************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-eval("module.exports = \"skdjfalk\";\n\n\n//# sourceURL=webpack:///./src/a.js?");
-
-/***/ }),
-
-/***/ "./src/index.js":
-/*!**********************!*\
-  !*** ./src/index.js ***!
-  \**********************/
-/*! no static exports found */
+/******/ ([
+/* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("let a = __webpack_require__(/*! ./a.js */ \"./src/a.js\");\nconsole.log('第一次配置');\n\n\n//# sourceURL=webpack:///./src/index.js?");
+let a = __webpack_require__(1);
+console.log('第一次配置');
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports) {
+
+module.exports = "skdjfalk";
+
 
 /***/ })
-
-/******/ });
+/******/ ]);
