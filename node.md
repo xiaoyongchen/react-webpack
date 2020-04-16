@@ -86,10 +86,11 @@ npm install --save-dev @babel/plugin-proposal-class-properties
 
 npm install --save-dev @babel/plugin-proposal-decorators
 
-# babel-plugin-transform-runtime 实际上是依赖 babel-runtime, 当一些 promise 和 generator 函数时，没有帮助代码。导致不识别
+# babel-plugin-transform-runtime 实际上是依赖 babel-runtime, 当一些内置 api 不会去转化。 promise 和 regenerator 函数时，没有帮助代码。导致不识别
 
 bable polyfill 3 中
 babel-runtime bable-polyfill bable-plugin-transform-runtime,
 第一种比较大，单独项目直接配置 babel-plugin-transform-runtime
-npm install --save-dev babel-plugin-transform-runtime
-npm install babel-runtime
+npm install --save-dev @babel/plugin-transform-runtime
+npm install @babel/runtime
+缺点 "".includes()不支持
