@@ -35,9 +35,9 @@ module.exports = {
             // hash: true, // <script 后面build.js?后面的哈希值
         }),
         new MiniCssExtractPlugin({
-            filename: "[name].css",
+            filename: "css/[name].css",
             chunkFilename: "[id].css",
-            ignoreOrder: false,
+            ignoreOrder: false
         }),
         new CleanWebpackPlugin(),
         // new webpack.ProvidePlugin({
@@ -74,6 +74,7 @@ module.exports = {
                         loader: MiniCssExtractPlugin.loader,
                         options: {
                             hmr: isDev,
+                            publicPath: '../'
                         },
                     },
                     {
@@ -85,18 +86,19 @@ module.exports = {
             },
             {
                 test: /\.(htm|html)$/i,
-                exclude: /(node_modules|bower_components)/,
+                // exclude: /(node_modules|bower_components)/,
                 use: {
                     loader: 'html-withimg-loader',
                 },
             },
             {
                 test: /\.(png|jpg|gif|eot|woff2|woff|ttf)$/i,
-                exclude: /(node_modules|bower_components)/,
+                // exclude: /(node_modules|bower_components)/,
                 use: [{
                     loader: 'url-loader',
                     options: {
                         limit: 200 * 1024,
+                        outputPath: 'img/',
                         esModule: false, //  'html-withimg-loader' 不起作用解决
                     },
                 }],
