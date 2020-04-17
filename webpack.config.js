@@ -83,6 +83,24 @@ module.exports = {
                     "sass-loader",
                 ],
             },
+            {
+                test: /\.(htm|html)$/i,
+                exclude: /(node_modules|bower_components)/,
+                use: {
+                    loader: 'html-withimg-loader',
+                },
+            },
+            {
+                test: /\.(png|jpg|gif|eot|woff2|woff|ttf)$/i,
+                exclude: /(node_modules|bower_components)/,
+                use: [{
+                    loader: 'url-loader',
+                    options: {
+                        limit: 200 * 1024,
+                        esModule: false, //  'html-withimg-loader' 不起作用解决
+                    },
+                }],
+            }
         ],
     },
     // cdn引入不用再次打包

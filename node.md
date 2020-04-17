@@ -100,15 +100,23 @@ npm install @babel/runtime
 npm install eslint eslint-loader --save-dev
 
 # 全局变量的使用 jquery, 和引入其他第三放模块,全局拿到方法
-  1.npm install jquery 
-  2.npm install expose-loader --save-dev  => 拿到window.$
+
+1.npm install jquery
+2.npm install expose-loader --save-dev => 拿到 window.$
     a.// import $ from 'expose-loader?$!jquery';
     b.import $ from 'jquery';
-      webpack.config.js rules
-     {
-        test: require.resolve('jquery'),
-        use: 'expose-loader?$'
+webpack.config.js rules
+{
+test: require.resolve('jquery'),
+use: 'expose-loader?$'
     },
   3.ProviderPlugins 使用
   console.log($);
-  4.cdn 引入
+4.cdn 引入
+
+# 图片使用
+
+1.file-loader => 在内部生成一张图片到 dist 目录下，常永远图片比较大，自定义图片对象 2.在 css 应用
+2.html-withimg-loader 在标签内部直接写路径
+3.url-loader 图片限制 200\*1024, 设置了 limit 之后就不需要 file-loaders
+npm install file-loader html-withimg-loader url-loader --save-dev
