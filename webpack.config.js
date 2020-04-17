@@ -14,6 +14,7 @@ module.exports = {
     mode: "development", // production || development
     entry: {
         index: "./src/index.js", // 入口，相对路径
+        // other: './src/other'    //  多入口
     },
     output: {
         filename: "js/[name].[hash:8].js", // 打包后文件名，默认main.js,hash每次生成的build不一样。
@@ -29,6 +30,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: "./src/index.html", // 需要使用的模版
             filename: "index.html",
+            chunks: ['index'], // 可以设置多个chunks
             // 在生产上生成dist/index.html一些压缩
             // minify: {
             //     removeAttributeQuotes: true,
@@ -36,6 +38,17 @@ module.exports = {
             // },
             // hash: true, // <script 后面build.js?后面的哈希值
         }),
+        // new HtmlWebpackPlugin({
+        //     template: "./src/other.html", // 需要使用的模版
+        //     filename: "index.html",
+        //     chunks: ['ohter'], // 可以设置多个chunks
+        //     // 在生产上生成dist/index.html一些压缩
+        //     // minify: {
+        //     //     removeAttributeQuotes: true,
+        //     //     collapseWhitespace: true,
+        //     // },
+        //     // hash: true, // <script 后面build.js?后面的哈希值
+        // }),
         new MiniCssExtractPlugin({
             filename: "css/[name].css",
             chunkFilename: "[id].css",
