@@ -98,3 +98,17 @@ npm install @babel/runtime
 # 代码规范
 
 npm install eslint eslint-loader --save-dev
+
+# 全局变量的使用 jquery, 和引入其他第三放模块,全局拿到方法
+  1.npm install jquery 
+  2.npm install expose-loader --save-dev  => 拿到window.$
+    a.// import $ from 'expose-loader?$!jquery';
+    b.import $ from 'jquery';
+      webpack.config.js rules
+     {
+        test: require.resolve('jquery'),
+        use: 'expose-loader?$'
+    },
+  3.ProviderPlugins 使用
+  console.log($);
+  4.cdn 引入

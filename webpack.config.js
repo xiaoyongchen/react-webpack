@@ -1,10 +1,13 @@
 const path = require("path");
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const TerserJSPlugin = require("terser-webpack-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
-const { CleanWebpackPlugin } = require("clean-webpack-plugin"); // installed via npm
+const {
+    CleanWebpackPlugin
+} = require("clean-webpack-plugin"); // installed via npm
 
 const isDev = process.env.NODE_ENV === "development";
 module.exports = {
@@ -37,11 +40,17 @@ module.exports = {
             ignoreOrder: false,
         }),
         new CleanWebpackPlugin(),
+        // new webpack.ProvidePlugin({
+        //     jquery: '$'
+        // }),
+
+
     ],
+
     // 模块,特点单一
     module: {
         rules: [
-            
+
             // {   
             //     enforce: 'pre',
             //     test: /\.(js|jsx)$/,
@@ -49,16 +58,19 @@ module.exports = {
             //     include: [path.resolve(__dirname, "src")],
             //     use:"eslint-loader",
             // },
+            // {
+            //     test: require.resolve('jquery'),
+            //     use: 'expose-loader?$'
+            // },
             {
                 test: /\.(js|jsx)$/,
                 exclude: /(node_modules|bower_components)/,
                 include: [path.resolve(__dirname, "src")],
-                use:"babel-loader",
+                use: "babel-loader",
             },
             {
                 test: /\.(css|scss|sass)$/,
-                use: [
-                    {
+                use: [{
                         loader: MiniCssExtractPlugin.loader,
                         options: {
                             hmr: isDev,
@@ -73,6 +85,10 @@ module.exports = {
             },
         ],
     },
+    // cdn引入不用再次打包
+    externals: {
+        jquery: '$'
+    },
     // 优化项，一般用户生产
     optimization: {
         minimizer: [
@@ -82,4 +98,5 @@ module.exports = {
             new OptimizeCSSAssetsPlugin({}),
         ],
     },
+
 };
