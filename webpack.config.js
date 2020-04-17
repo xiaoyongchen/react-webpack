@@ -12,9 +12,11 @@ const {
 const isDev = process.env.NODE_ENV === "development";
 module.exports = {
     mode: "development", // production || development
-    entry: "./src/index.js", // 入口，相对路径
+    entry: {
+        index: "./src/index.js", // 入口，相对路径
+    },
     output: {
-        filename: "bundle.[hash:8].js", // 打包后文件名，默认main.js,hash每次生成的build不一样。
+        filename: "js/[name].[hash:8].js", // 打包后文件名，默认main.js,hash每次生成的build不一样。
         path: path.resolve(__dirname, "dist"),
     },
     devServer: {
@@ -66,7 +68,9 @@ module.exports = {
                 test: /\.(js|jsx)$/,
                 exclude: /(node_modules|bower_components)/,
                 include: [path.resolve(__dirname, "src")],
-                use: "babel-loader",
+                use: {
+                    loader: 'babel-loader'
+                }
             },
             {
                 test: /\.(css|scss|sass)$/,
