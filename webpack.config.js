@@ -126,6 +126,13 @@ module.exports = {
     externals: {
         jquery: '$'
     },
+    // dev 优化实时更新
+    watch: true,
+    watchOptions: {
+        poll: 1000, // 轮训
+        aggregateTimeout: 500, // 防抖
+        ignored: /node_modules/
+    },
     // 优化项，一般用户生产
     optimization: {
         minimizer: [

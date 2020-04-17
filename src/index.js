@@ -25,4 +25,4 @@ require("./index.css");
 
 // 内连loader。normal pre, push 
 import $ from 'jquery';
-console.log($);
+console.log($ + '1s');
