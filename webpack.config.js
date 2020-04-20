@@ -17,7 +17,7 @@ const _mode = argv.mode || "development";
 const isDev = _mode === "development";
 console.log("🌹：" + _mode);
 module.exports = {
-    mode: "development", // production || development
+    mode: "production", // production || development
     entry: {
         // index: "./src/index.js", // 入口，相对路径
         index: resolve("./src/index.js"),
@@ -38,6 +38,7 @@ module.exports = {
             template: resolve("./src/index.html"), // 需要使用的模版
             filename: "index.html",
             chunks: ["index"], // 可以设置多个chunks
+            dlls: [],
             // 在生产上生成dist/index.html一些压缩
             // minify: {
             //     removeAttributeQuotes: true,
@@ -77,6 +78,10 @@ module.exports = {
         // new webpack.IgnorePlugin(/\.\/locale/, /moment/), //moment这个库中，如果引用了./locale/目录的内容，就忽略掉，不会打包进去
         // new webpack.NamedModulesPlugin(),
         // new webpack.HotModuleReplacementPlugin(), // 具体配置需要调用只用于调试 module.hot.accept
+        // 设置任务清单。需要到任务清单找，没有在实现打包
+        new webpack.DllReferencePlugin({
+            manifest: resolve(__dirname, 'static/dll', 'manifest.json')
+        }),
     ],
 
     // 模块,特点单一
@@ -125,16 +130,25 @@ module.exports = {
                 },
             },
             {
-                test: /\.(png|jpg|gif|eot|woff2|woff|ttf)$/i,
-                // exclude: /(node_modules|bower_components)/,
+                test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+                exclude: /(node_modules|bower_components)/,
                 use: [{
                     loader: "url-loader",
                     options: {
-                        limit: 200 * 1024,
+                        limit: 8192,
                         outputPath: "img/",
+                        name: "[name].[hash:4].[ext]",
                         esModule: false, //  'html-withimg-loader' 不起作用解决
                     },
                 }, ],
+            },
+            {
+                test: /\.(woff|eot|ttf|svg|gif)$/,
+                loader: "url-loader",
+                options: {
+                    limit: 8192,
+                    name: "font/[name].[hash:4].[ext]",
+                },
             },
         ],
         noParse: /jquery/, // 不去解析依赖包和依赖包，如果库很大的时候有点用echart.js等

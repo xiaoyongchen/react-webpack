@@ -41,18 +41,8 @@ import ReactDOM from "react-dom";
 
 class Index extends Component {
 
-    clickFun() {
-        import('./a.js').then(data => {
-            console.log('懒加载：' + data.default);
-        })
-    }
-
     render() {
-        return <div onClick = {
-            () => {
-                this.clickFun();
-            }
-        } > React </div>;
+        return <div > Button < /div>
     }
 }
 
