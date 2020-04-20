@@ -6,6 +6,7 @@
     "scripts": {
         "build": "webpack --mode production",
         "dev": "webpack-dev-server --mode development",
+        "dll": "webpack --mode production --config ./config/webpack.dll.js",
         "client:dev": "scripty",
         "client:server": "scripty",
         "client:prod": "scripty",

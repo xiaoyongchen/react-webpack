@@ -1,6 +1,4 @@
-const {
-    resolve
-} = require("path");
+const { resolve } = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -8,29 +6,26 @@ const TerserJSPlugin = require("terser-webpack-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
-const {
-    CleanWebpackPlugin
-} = require("clean-webpack-plugin"); // installed via npm
+const { CleanWebpackPlugin } = require("clean-webpack-plugin"); // installed via npm
 
 const argv = require("yargs-parser")(process.argv.slice(2));
 const _mode = argv.mode || "development";
 const isDev = _mode === "development";
-console.log("🌹：" + _mode);
+
 module.exports = {
     mode: "production", // production || development
     entry: {
-        // index: "./src/index.js", // 入口，相对路径
         index: resolve("./src/index.js"),
         // other: './src/other'    //  多入口
     },
     output: {
         filename: "js/[name].[hash:8].js", // 打包后文件名，默认main.js,hash每次生成的build不一样。
-        path: resolve(__dirname, "dist"),
+        path: resolve("dist"),
     },
     devServer: {
         port: 3000,
         progress: true, // 进度条
-        contentBase: "./dist", // 不使用默认内存中的，制定文件夹
+        contentBase: resolve("dist"), // 不使用默认内存中的，制定文件夹
         compress: true, // gzip压缩
     },
     plugins: [
@@ -38,7 +33,6 @@ module.exports = {
             template: resolve("./src/index.html"), // 需要使用的模版
             filename: "index.html",
             chunks: ["index"], // 可以设置多个chunks
-            dlls: [],
             // 在生产上生成dist/index.html一些压缩
             // minify: {
             //     removeAttributeQuotes: true,
@@ -70,17 +64,20 @@ module.exports = {
         // new webpack.ProvidePlugin({
         //     jquery: '$'
         // }),
-        new CopyWebpackPlugin([{
-            from: resolve(__dirname, "static"),
-            to: "./static",
-        }, ]),
+        new CopyWebpackPlugin([
+            {
+                from: resolve("static"),
+                to: "static",
+                ignore: [".*"],
+            },
+        ]),
         // new webpack.BannerPlugin("make 2019 by 陈小勇"),
         // new webpack.IgnorePlugin(/\.\/locale/, /moment/), //moment这个库中，如果引用了./locale/目录的内容，就忽略掉，不会打包进去
         // new webpack.NamedModulesPlugin(),
         // new webpack.HotModuleReplacementPlugin(), // 具体配置需要调用只用于调试 module.hot.accept
         // 设置任务清单。需要到任务清单找，没有在实现打包
         new webpack.DllReferencePlugin({
-            manifest: resolve(__dirname, 'static/dll', 'manifest.json')
+            manifest: resolve("static/dll", "manifest.json"),
         }),
     ],
 
@@ -91,7 +88,7 @@ module.exports = {
             //     enforce: 'pre',
             //     test: /\.(js|jsx)$/,
             //     exclude: /(node_modules|bower_components)/,
-            //     include: [resolve(__dirname, "src")],
+            //     include: [resolve("src")],
             //     use:"eslint-loader",
             // },
             // {
@@ -101,14 +98,15 @@ module.exports = {
             {
                 test: /\.(js|jsx)$/,
                 exclude: /(node_modules|bower_components)/,
-                include: [resolve(__dirname, "src")],
+                include: [resolve("src"), resolve("static")],
                 use: {
                     loader: "babel-loader",
                 },
             },
             {
                 test: /\.(css|scss|sass)$/,
-                use: [{
+                use: [
+                    {
                         loader: MiniCssExtractPlugin.loader,
                         options: {
                             hmr: isDev,
@@ -124,7 +122,6 @@ module.exports = {
             },
             {
                 test: /\.(htm|html)$/i,
-                // exclude: /(node_modules|bower_components)/,
                 use: {
                     loader: "html-withimg-loader",
                 },
@@ -132,15 +129,16 @@ module.exports = {
             {
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
                 exclude: /(node_modules|bower_components)/,
-                use: [{
-                    loader: "url-loader",
-                    options: {
-                        limit: 8192,
-                        outputPath: "img/",
-                        name: "[name].[hash:4].[ext]",
-                        esModule: false, //  'html-withimg-loader' 不起作用解决
+                use: [
+                    {
+                        loader: "url-loader",
+                        options: {
+                            limit: 8192,
+                            outputPath: "img/",
+                            esModule: false, //  'html-withimg-loader' 不起作用解决
+                        },
                     },
-                }, ],
+                ],
             },
             {
                 test: /\.(woff|eot|ttf|svg|gif)$/,
@@ -173,21 +171,24 @@ module.exports = {
             new OptimizeCSSAssetsPlugin({}),
         ],
         // 抽离公共代码,单入口不需要
-        splitChunks: { // 分割代码块
-            cacheGroups: { // 缓存组
-                common: { // 公共模块
-                    chunks: 'initial',
+        splitChunks: {
+            // 分割代码块
+            cacheGroups: {
+                // 缓存组
+                common: {
+                    // 公共模块
+                    chunks: "initial",
                     minSize: 200,
                     minChunks: 2,
                 },
                 vendors: {
                     test: /node_modules/,
                     priority: 1, // 提高权重，跟放到上面位置结果一样
-                    chunks: 'initial',
+                    chunks: "initial",
                     minSize: 200,
                     minChunks: 2,
-                }
-            }
-        }
+                },
+            },
+        },
     },
 };
