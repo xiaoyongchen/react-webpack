@@ -34,5 +34,13 @@ require("./index.css");
 //     console.log(xhr.response);
 // };
 // xhr.send();
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
 
-// 设置环境变量
+class Index extends Component {
+    render() {
+        return <div>React</div>;
+    }
+}
+
+ReactDOM.render(<Index />, document.getElementById("app"));

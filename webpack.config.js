@@ -1,4 +1,6 @@
-const { resolve } = require("path");
+const {
+    resolve
+} = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -6,7 +8,9 @@ const TerserJSPlugin = require("terser-webpack-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
-const { CleanWebpackPlugin } = require("clean-webpack-plugin"); // installed via npm
+const {
+    CleanWebpackPlugin
+} = require("clean-webpack-plugin"); // installed via npm
 
 const argv = require("yargs-parser")(process.argv.slice(2));
 const _mode = argv.mode || "development";
@@ -65,12 +69,10 @@ module.exports = {
         // new webpack.ProvidePlugin({
         //     jquery: '$'
         // }),
-        new CopyWebpackPlugin([
-            {
-                from: resolve(__dirname, "static"),
-                to: "./static",
-            },
-        ]),
+        new CopyWebpackPlugin([{
+            from: resolve(__dirname, "static"),
+            to: "./static",
+        }, ]),
         // new webpack.BannerPlugin("make 2019 by 陈小勇"),
         // new Webpack.IgnorePlugin(/\.\/locale/, /moment/), //moment这个库中，如果引用了./locale/目录的内容，就忽略掉，不会打包进去
     ],
@@ -99,8 +101,7 @@ module.exports = {
             },
             {
                 test: /\.(css|scss|sass)$/,
-                use: [
-                    {
+                use: [{
                         loader: MiniCssExtractPlugin.loader,
                         options: {
                             hmr: isDev,
@@ -124,16 +125,14 @@ module.exports = {
             {
                 test: /\.(png|jpg|gif|eot|woff2|woff|ttf)$/i,
                 // exclude: /(node_modules|bower_components)/,
-                use: [
-                    {
-                        loader: "url-loader",
-                        options: {
-                            limit: 200 * 1024,
-                            outputPath: "img/",
-                            esModule: false, //  'html-withimg-loader' 不起作用解决
-                        },
+                use: [{
+                    loader: "url-loader",
+                    options: {
+                        limit: 200 * 1024,
+                        outputPath: "img/",
+                        esModule: false, //  'html-withimg-loader' 不起作用解决
                     },
-                ],
+                }, ],
             },
         ],
         noParse: /jquery/, // 不去解析依赖包和依赖包，如果库很大的时候有点用echart.js等
@@ -157,5 +156,22 @@ module.exports = {
             }),
             new OptimizeCSSAssetsPlugin({}),
         ],
+        // 抽离公共代码,单入口不需要
+        splitChunks: { // 分割代码块
+            cacheGroups: { // 缓存组
+                common: { // 公共模块
+                    chunks: 'initial',
+                    minSize: 200,
+                    minChunks: 2,
+                },
+                vendors: {
+                    test: /node_modules/,
+                    priority: 1, // 提高权重，跟放到上面位置结果一样
+                    chunks: 'initial',
+                    minSize: 200,
+                    minChunks: 2,
+                }
+            }
+        }
     },
 };

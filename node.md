@@ -138,3 +138,22 @@ npm install yargs-parser --save-dev
 // 减少打印参数
 npm install friendly-errors-webpack-plugin --save-dev
 // webpack-build-notifier 这个选择用
+
+# noParse 使用， 如果第三方包独立的，可以减少解析时间
+
+noParse: /jquery/, // 不去解析依赖包和依赖包，如果库很大的时候有点用 echart.js 等
+
+# IgnorePlugin 插件使用，忽略 moment 的多语言包，需要手动导入语言包。
+
+Webpack.IgnorePlugin
+
+# 动态链接库,任务清单。需要到任务清单找，没有在实现打包
+
+npm i react react-dom
+npm install --save-dev @babel/preset-react
+
+# webpack 自带优化
+
+tree-shaking: import ES6 在生产模式下，把没有用到的代码,自动去掉。
+
+scopy hosting: 作用域提升，在 webpack 自动把这个对象放到当前作用域中。
