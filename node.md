@@ -157,3 +157,5 @@ npm install --save-dev @babel/preset-react
 tree-shaking: import ES6 在生产模式下，把没有用到的代码,自动去掉。
 
 scopy hosting: 作用域提升，在 webpack 自动把这个对象放到当前作用域中。
+
+# 懒加载(比如播放才去加载某个 JS 文件)
