@@ -1,6 +1,4 @@
-const {
-    resolve
-} = require("path");
+const { resolve } = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -8,14 +6,12 @@ const TerserJSPlugin = require("terser-webpack-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
-const {
-    CleanWebpackPlugin
-} = require("clean-webpack-plugin"); // installed via npm
+const { CleanWebpackPlugin } = require("clean-webpack-plugin"); // installed via npm
 
 const argv = require("yargs-parser")(process.argv.slice(2));
 const _mode = argv.mode || "development";
 const isDev = _mode === "development";
-console.log('🌹：' + _mode);
+console.log("🌹：" + _mode);
 module.exports = {
     mode: "development", // production || development
     entry: {
@@ -69,11 +65,13 @@ module.exports = {
         // new webpack.ProvidePlugin({
         //     jquery: '$'
         // }),
-        new CopyWebpackPlugin([{
-            from: resolve(__dirname, "static"),
-            to: './static'
-        }]),
-        new webpack.BannerPlugin('make 2019 by 陈小勇'),
+        new CopyWebpackPlugin([
+            {
+                from: resolve(__dirname, "static"),
+                to: "./static",
+            },
+        ]),
+        new webpack.BannerPlugin("make 2019 by 陈小勇"),
     ],
 
     // 模块,特点单一
@@ -100,7 +98,8 @@ module.exports = {
             },
             {
                 test: /\.(css|scss|sass)$/,
-                use: [{
+                use: [
+                    {
                         loader: MiniCssExtractPlugin.loader,
                         options: {
                             hmr: isDev,
@@ -124,16 +123,19 @@ module.exports = {
             {
                 test: /\.(png|jpg|gif|eot|woff2|woff|ttf)$/i,
                 // exclude: /(node_modules|bower_components)/,
-                use: [{
-                    loader: "url-loader",
-                    options: {
-                        limit: 200 * 1024,
-                        outputPath: "img/",
-                        esModule: false, //  'html-withimg-loader' 不起作用解决
+                use: [
+                    {
+                        loader: "url-loader",
+                        options: {
+                            limit: 200 * 1024,
+                            outputPath: "img/",
+                            esModule: false, //  'html-withimg-loader' 不起作用解决
+                        },
                     },
-                }, ],
+                ],
             },
         ],
+        noParse: /jquery/, // 不去解析依赖包和依赖包，如果库很大的时候有点用echart.js等
     },
     // cdn引入不用再次打包
     externals: {
