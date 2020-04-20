@@ -158,4 +158,5 @@ tree-shaking: import ES6 在生产模式下，把没有用到的代码,自动去
 
 scopy hosting: 作用域提升，在 webpack 自动把这个对象放到当前作用域中。
 
-# 懒加载(比如播放才去加载某个 JS 文件)
+# 懒加载(比如播放才去加载某个 JS 文件) import('./a.js') 草案语法需要babel插件
+npm install --save-dev @babel/plugin-syntax-dynamic-import

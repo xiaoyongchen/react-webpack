@@ -1,4 +1,4 @@
-module.exports = "skdjfalk";
+export default '导出文案';
 class B {
 
 }

@@ -34,13 +34,26 @@ require("./index.css");
 //     console.log(xhr.response);
 // };
 // xhr.send();
-import React, { Component } from "react";
+import React, {
+    Component
+} from "react";
 import ReactDOM from "react-dom";
 
 class Index extends Component {
+
+    clickFun() {
+        import('./a.js').then(data => {
+            console.log('懒加载：' + data.default);
+        })
+    }
+
     render() {
-        return <div>React</div>;
+        return <div onClick = {
+            () => {
+                this.clickFun();
+            }
+        } > React </div>;
     }
 }
 
-ReactDOM.render(<Index />, document.getElementById("app"));
+ReactDOM.render( < Index / > , document.getElementById("app"));
