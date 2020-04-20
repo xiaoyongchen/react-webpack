@@ -1,6 +1,4 @@
-const {
-    resolve
-} = require("path");
+const { resolve } = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -8,30 +6,20 @@ const TerserJSPlugin = require("terser-webpack-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
-const {
-    CleanWebpackPlugin
-} = require("clean-webpack-plugin"); // installed via npm
+const { CleanWebpackPlugin } = require("clean-webpack-plugin"); // installed via npm
 
 const argv = require("yargs-parser")(process.argv.slice(2));
 const _mode = argv.mode || "development";
 const isDev = _mode === "development";
-console.log('🌹：' + _mode);
+
 module.exports = {
-    mode: "development", // production || development
     entry: {
-        // index: "./src/index.js", // 入口，相对路径
         index: resolve("./src/index.js"),
         // other: './src/other'    //  多入口
     },
     output: {
         filename: "js/[name].[hash:8].js", // 打包后文件名，默认main.js,hash每次生成的build不一样。
-        path: resolve(__dirname, "dist"),
-    },
-    devServer: {
-        port: 3000,
-        progress: true, // 进度条
-        contentBase: "./dist", // 不使用默认内存中的，制定文件夹
-        compress: true, // gzip压缩
+        path: resolve("dist"),
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -69,11 +57,13 @@ module.exports = {
         // new webpack.ProvidePlugin({
         //     jquery: '$'
         // }),
-        new CopyWebpackPlugin([{
-            from: resolve(__dirname, "static"),
-            to: './static'
-        }]),
-        new webpack.BannerPlugin('make 2019 by 陈小勇'),
+        new CopyWebpackPlugin([
+            {
+                from: resolve(__dirname, "static"),
+                to: "./static",
+            },
+        ]),
+        new webpack.BannerPlugin("make 2019 by 陈小勇"),
     ],
 
     // 模块,特点单一
@@ -100,7 +90,8 @@ module.exports = {
             },
             {
                 test: /\.(css|scss|sass)$/,
-                use: [{
+                use: [
+                    {
                         loader: MiniCssExtractPlugin.loader,
                         options: {
                             hmr: isDev,
@@ -116,22 +107,24 @@ module.exports = {
             },
             {
                 test: /\.(htm|html)$/i,
-                // exclude: /(node_modules|bower_components)/,
+                exclude: /(node_modules|bower_components)/,
                 use: {
                     loader: "html-withimg-loader",
                 },
             },
             {
                 test: /\.(png|jpg|gif|eot|woff2|woff|ttf)$/i,
-                // exclude: /(node_modules|bower_components)/,
-                use: [{
-                    loader: "url-loader",
-                    options: {
-                        limit: 200 * 1024,
-                        outputPath: "img/",
-                        esModule: false, //  'html-withimg-loader' 不起作用解决
+                exclude: /(node_modules|bower_components)/,
+                use: [
+                    {
+                        loader: "url-loader",
+                        options: {
+                            limit: 2,
+                            outputPath: "img/",
+                            esModule: false, //  'html-withimg-loader' 不起作用解决
+                        },
                     },
-                }, ],
+                ],
             },
         ],
     },
@@ -154,5 +147,14 @@ module.exports = {
             }),
             new OptimizeCSSAssetsPlugin({}),
         ],
+    },
+    // 解析第三方包，和设置一些别名
+    resolve: {
+        modules: [resolve("node-modules")],
+        // mainFields: ['style', 'main'], // 查找文件的优先级，或者范围
+        // alias: {
+        //     bootstrap: 'bootstrap/dist/css/bootstrap.css'
+        // }
+        extensions: [".ts", ".tsx", ".js", ".jsx", ".scss", ".css"], // 可以省略的后缀名，以及优先级
     },
 };

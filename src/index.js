@@ -23,6 +23,16 @@ require("./index.css");
 //     console.log(params, +"23");
 // }
 
-// 内连loader。normal pre, push 
-import $ from 'jquery';
-console.log($ + '1s');
+// 内连loader。normal pre, push
+// import $ from 'jquery';
+// console.log($ + '1s');
+
+// 跨域问题
+// let xhr = new XMLHttpRequest();
+// xhr.open('GET', '/api/user', true);
+// xhr.onload = () => {
+//     console.log(xhr.response);
+// };
+// xhr.send();
+
+// 设置环境变量

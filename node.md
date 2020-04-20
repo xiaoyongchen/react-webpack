@@ -124,3 +124,17 @@ npm install file-loader html-withimg-loader url-loader --save-dev
 # copy-webpack-plugin 一些文件直接打包，比如一些 3 方 JS
 
 npm install copy-webpack-plugin --save-dev
+
+# 区分环境变量以及 webpack-mrege 使用
+
+npm i webpack-merge
+// sh 脚本插件工具
+npm install scripty --save-dev
+// 找到 sh 脚本位置
+chmod -R +x scripts
+// 拿到 node 环境转化成 object
+npm install yargs-parser --save-dev
+
+// 减少打印参数
+npm install friendly-errors-webpack-plugin --save-dev
+// webpack-build-notifier 这个选择用
