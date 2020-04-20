@@ -120,3 +120,7 @@ use: 'expose-loader?$'
 2.html-withimg-loader 在标签内部直接写路径
 3.url-loader 图片限制 200\*1024, 设置了 limit 之后就不需要 file-loaders
 npm install file-loader html-withimg-loader url-loader --save-dev
+
+# copy-webpack-plugin 一些文件直接打包，比如一些 3 方 JS
+
+npm install copy-webpack-plugin --save-dev

@@ -1,9 +1,10 @@
 const path = require("path");
-const webpack = require('webpack');
+const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const TerserJSPlugin = require("terser-webpack-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 const {
     CleanWebpackPlugin
@@ -30,7 +31,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: "./src/index.html", // 需要使用的模版
             filename: "index.html",
-            chunks: ['index'], // 可以设置多个chunks
+            chunks: ["index"], // 可以设置多个chunks
             // 在生产上生成dist/index.html一些压缩
             // minify: {
             //     removeAttributeQuotes: true,
@@ -52,21 +53,27 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: "css/[name].css",
             chunkFilename: "[id].css",
-            ignoreOrder: false
+            ignoreOrder: false,
+            minify: {
+                minifyCSS: true,
+                minifyJS: true,
+            },
         }),
-        new CleanWebpackPlugin(),
+        new CleanWebpackPlugin(), // 默认dist
         // new webpack.ProvidePlugin({
         //     jquery: '$'
         // }),
-
-
+        new CopyWebpackPlugin([{
+            from: path.resolve(__dirname, "static"),
+            to: './static'
+        }]),
+        new webpack.BannerPlugin('make 2019 by 陈小勇'),
     ],
 
     // 模块,特点单一
     module: {
         rules: [
-
-            // {   
+            // {
             //     enforce: 'pre',
             //     test: /\.(js|jsx)$/,
             //     exclude: /(node_modules|bower_components)/,
@@ -82,8 +89,8 @@ module.exports = {
                 exclude: /(node_modules|bower_components)/,
                 include: [path.resolve(__dirname, "src")],
                 use: {
-                    loader: 'babel-loader'
-                }
+                    loader: "babel-loader",
+                },
             },
             {
                 test: /\.(css|scss|sass)$/,
@@ -91,7 +98,7 @@ module.exports = {
                         loader: MiniCssExtractPlugin.loader,
                         options: {
                             hmr: isDev,
-                            publicPath: '../'
+                            publicPath: "../",
                         },
                     },
                     {
@@ -105,33 +112,33 @@ module.exports = {
                 test: /\.(htm|html)$/i,
                 // exclude: /(node_modules|bower_components)/,
                 use: {
-                    loader: 'html-withimg-loader',
+                    loader: "html-withimg-loader",
                 },
             },
             {
                 test: /\.(png|jpg|gif|eot|woff2|woff|ttf)$/i,
                 // exclude: /(node_modules|bower_components)/,
                 use: [{
-                    loader: 'url-loader',
+                    loader: "url-loader",
                     options: {
                         limit: 200 * 1024,
-                        outputPath: 'img/',
+                        outputPath: "img/",
                         esModule: false, //  'html-withimg-loader' 不起作用解决
                     },
-                }],
-            }
+                }, ],
+            },
         ],
     },
     // cdn引入不用再次打包
     externals: {
-        jquery: '$'
+        jquery: "$",
     },
     // dev 优化实时更新
     watch: true,
     watchOptions: {
         poll: 1000, // 轮训
         aggregateTimeout: 500, // 防抖
-        ignored: /node_modules/
+        ignored: /node_modules/,
     },
     // 优化项，一般用户生产
     optimization: {
@@ -142,5 +149,4 @@ module.exports = {
             new OptimizeCSSAssetsPlugin({}),
         ],
     },
-
 };
