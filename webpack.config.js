@@ -72,7 +72,7 @@ module.exports = {
             },
         ]),
         // new webpack.BannerPlugin("make 2019 by 陈小勇"),
-        new Webpack.IgnorePlugin(/\.\/locale/, /moment/), //moment这个库中，如果引用了./locale/目录的内容，就忽略掉，不会打包进去
+        // new Webpack.IgnorePlugin(/\.\/locale/, /moment/), //moment这个库中，如果引用了./locale/目录的内容，就忽略掉，不会打包进去
     ],
 
     // 模块,特点单一
