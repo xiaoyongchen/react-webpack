@@ -1,3 +1,4 @@
+require('./test/index.scss');
 import React, {
     Component
 } from "react";
@@ -6,7 +7,9 @@ import ReactDOM from "react-dom";
 class Index extends Component {
 
     render() {
-        return <div>Hello,world</div>
+        return <div>
+           Hello world
+        </div>
     }
 }
 

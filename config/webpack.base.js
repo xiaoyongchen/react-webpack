@@ -70,6 +70,8 @@ module.exports = {
             },
             {
                 test: /\.(css|scss|sass)$/,
+                exclude: /(node_modules|bower_components)/,
+                include: [resolve("src")],
                 use: [{
                         loader: MiniCssExtractPlugin.loader,
                         options: {
@@ -87,7 +89,7 @@ module.exports = {
             {
                 test: /\.(htm|html)$/i,
                 use: {
-                    loader: "html-withimg-loader",
+                    loader: "html-withimg-loader",  // 仅仅支持html文件图片加载
                 },
             },
             {
