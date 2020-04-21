@@ -13,20 +13,18 @@ const {
 const argv = require("yargs-parser")(process.argv.slice(2));
 const _mode = argv.mode || "development";
 const isDev = _mode === "development";
-console.log("🌶️：" + _mode);
 
 module.exports = {
     entry: {
-        index: resolve("../src/index.js"),
-        // other: './src/other'    //  多入口
+        index: "./src/index.js",
     },
     output: {
         filename: "js/[name].[hash:8].js", // 打包后文件名，默认main.js,hash每次生成的build不一样。
-        path: resolve("../dist"),
+        path: resolve("dist"),
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: resolve("../src/index.html"), // 需要使用的模版
+            template: './src/index.html', // 需要使用的模版
             filename: "index.html",
             chunks: ["index"], // 可以设置多个chunks
             // 在生产上生成dist/index.html一些压缩
@@ -47,7 +45,7 @@ module.exports = {
         }),
         new CleanWebpackPlugin(), // 默认dist
         new CopyWebpackPlugin([{
-            from: resolve("../static"),
+            from: resolve("static"),
             to: "./static",
         }]),
         // new webpack.BannerPlugin("make 2019 by 陈小勇"),
@@ -56,7 +54,7 @@ module.exports = {
         // new webpack.HotModuleReplacementPlugin(), // 具体配置需要调用只用于调试 module.hot.accept
         // 设置任务清单。需要到任务清单找，没有在实现打包
         new webpack.DllReferencePlugin({
-            manifest: resolve("../static/dll", "manifest.json"),
+            manifest: resolve("static/dll", "manifest.json"),
         }),
     ],
 
@@ -65,7 +63,7 @@ module.exports = {
         rules: [{
                 test: /\.(js|jsx)$/,
                 exclude: /(node_modules|bower_components)/,
-                include: [resolve("../src"), resolve("../static")],
+                include: [resolve("src"), resolve("static")],
                 use: {
                     loader: "babel-loader",
                 },

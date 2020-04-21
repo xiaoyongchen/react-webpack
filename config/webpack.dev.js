@@ -16,7 +16,7 @@ module.exports = merge.smart(base, {
     devServer: {
         port: 3000,
         progress: true, // 进度条
-        contentBase: path.resolve("../dist"), // 不使用默认内存中的，制定文件夹
+        contentBase: path.resolve("dist"), // 不使用默认内存中的，制定文件夹
         compress: true, // gzip压缩
         quiet: true, // friendly-errors-webpack-plugin需要配置
         // proxy: {
