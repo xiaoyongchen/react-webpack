@@ -5,6 +5,9 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const {
+    CheckerPlugin
+} = require('awesome-typescript-loader')
 
 const {
     CleanWebpackPlugin
@@ -16,7 +19,7 @@ const isDev = _mode === "development";
 
 module.exports = {
     entry: {
-        index: "./src/index.js",
+        index: resolve('./src/index.js'),
     },
     output: {
         filename: "js/[name].[hash:8].js", // 打包后文件名，默认main.js,hash每次生成的build不一样。
@@ -24,7 +27,7 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: './src/index.html', // 需要使用的模版
+            template: resolve('./src/index.html'), // 需要使用的模版
             filename: "index.html",
             chunks: ["index"], // 可以设置多个chunks
             // 在生产上生成dist/index.html一些压缩
@@ -56,11 +59,15 @@ module.exports = {
         new webpack.DllReferencePlugin({
             manifest: resolve("static/dll", "manifest.json"),
         }),
+        new CheckerPlugin(),
     ],
 
     // 模块,特点单一
     module: {
         rules: [{
+                test: /\.tsx?$/,
+                loader: 'awesome-typescript-loader'
+            }, {
                 test: /\.(js|jsx)$/,
                 exclude: /(node_modules|bower_components)/,
                 include: [resolve("src"), resolve("static")],
@@ -89,7 +96,7 @@ module.exports = {
             {
                 test: /\.(htm|html)$/i,
                 use: {
-                    loader: "html-withimg-loader",  // 仅仅支持html文件图片加载
+                    loader: "html-withimg-loader", // 仅仅支持html文件图片加载
                 },
             },
             {

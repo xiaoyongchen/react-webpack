@@ -161,3 +161,8 @@ scopy hosting: 作用域提升，在 webpack 自动把这个对象放到当前�
 # 懒加载(比如播放才去加载某个 JS 文件) import('./a.js') 草案语法需要 babel 插件
 
 npm install --save-dev @babel/plugin-syntax-dynamic-import
+
+# ts支持
+npm install --save  @types/react @types/react-dom
+npm install --save-dev typescript awesome-typescript-loader source-map-loader
+
