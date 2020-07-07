@@ -1,4 +1,6 @@
 interface Animater {
     str: string;
 }
-export default "sss";
+
+
+export default "测试";
