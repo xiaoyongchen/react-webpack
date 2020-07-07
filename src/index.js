@@ -1,35 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import ReactDOM, { render } from 'react-dom';
+require('./test/index.scss');
+import React, {
+    Component
+} from "react";
+import ReactDOM from "react-dom";
 import Main from './main.tsx';
-import Test from './test';
+console.log(Main);
 
-class Index extends React.Component {
+class Index extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      count: 0
+    render() {
+        return <div >
+            Hello world </div>
     }
-  }
-  componentDidMount() {
-    setInterval(() => {
-      let { count } = this.state;
-      this.setState({
-        count: ++count
-      })
-    },2000)
-  }
-
-  render() {
-    const testProps = {count: this.state.count};
-    return (
-      <div>
-        <Test {...testProps}></Test>
-      </div>
-    );
-  }
-
 }
 
-
-ReactDOM.render(<Index></Index>, document.getElementById('app'));
+ReactDOM.render( < Index / > , document.getElementById("app"));
